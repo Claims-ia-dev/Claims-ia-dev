@@ -1,0 +1,149 @@
+.formContainer{
+    width: 60%;
+    height: 100vh;
+    background-color: white;
+    /* opacity: 0.8; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .imageContainer{
+    width: 40%;
+    height: 100vh;
+    background-color: green;
+    opacity: 0.8;
+  }
+  
+  .formInfoContainer{
+    width: 30em;
+    height: 31em;
+    border: 10px solid red;
+    margin-right: 4em;
+  }
+  
+  .titleContainer{
+    width: 100%;
+    height: 30%;
+    background-color: #156FFF;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form{
+    width: 100%;
+    height: 70%;
+    /* background-color: yellow; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .formGroup{
+    width: 270px;
+    height: 50px;
+    margin-bottom: 1em;
+    border-radius: 10px;
+    outline: none;
+    position: relative;
+  }
+  
+  .formGroup:nth-child(4){
+    background-color: #FBE5C3;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .showPass {
+    position: absolute;
+    cursor: pointer;
+    display: inline-block;
+    right: 15px;
+    top: 18px;
+    /* margin-left: -40px; */
+  }
+  
+  
+  .displayFlex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between  ;
+    align-items: center;
+    /* padding: 1em; */
+    /* padding-right: 1em; */
+  }
+  
+  
+  .textContainer{
+    height: 100%;
+    width: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .textContainer a{
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #B2B2B2;
+  }
+  
+
+  main{
+    width: 100%;
+    height: 100vh;
+    background-color: red;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  form{
+    /* background-color: red; */
+    width: 20em;
+    height: 20em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  input{
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1em;
+    border-radius: 10px;
+    border: 3px solid #D9D9D9;
+    outline: none;
+    padding-left: 0.5em;
+    font-size: clamp(0.8em, 1.5vw, 1em);
+  }
+  
+  input:focus{
+    border: 3px solid #156FFF;
+  }
+  
+  input::placeholder{
+    padding-left: 0.5em;
+    font-size: clamp(0.8em, 1.5vw, 1em);}
+  
+  button{
+    width: 7em;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #156FFF;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
