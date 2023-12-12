@@ -3,7 +3,9 @@ import InputEmail from "../../components/inputs/email/inputEmail";
 import InputPassword from "../../components/inputs/password/inputPassword";
 import { logInUser } from "../../controller/userOperation";
 import { useAuth } from "../../controller/AuthContext";
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
+
 
 export const AdminWindow = () => {
   const { logout } = useAuth();
@@ -20,7 +22,9 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorLogin, setErrorLogin] = useState(false);
-  const { login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,8 +34,10 @@ export default function Home() {
     }
 
     const loginResult = await logInUser({ email, password });
+
     if (loginResult) {
-      login();
+      await login();
+      navigate('/admin');
       setEmail("");
       setPassword("");
     } else {
@@ -71,7 +77,7 @@ export default function Home() {
                 />
                 <div className={`${styles.formGroup} ${styles.displayFlex}`}>
                   <div className={styles.textContainer}>
-                    <a href="/.">
+                    <a href="/">
                       No account? <u>No problem</u>
                     </a>
                   </div>
@@ -91,7 +97,7 @@ export default function Home() {
         <section className={styles.imageContainer}></section>
       </main>
 
-      {isAuthenticated ? <AdminWindow /> : <></>}
+      {/* {isAuthenticated ? <AdminWindow /> : <></>} */}
     </>
   );
 }
