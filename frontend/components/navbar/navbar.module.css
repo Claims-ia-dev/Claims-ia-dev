@@ -1,0 +1,34 @@
+.navbarContainer{
+    position: absolute;
+    top: 0;
+    padding: 2em;
+    width: 100%;
+    height: 5em;
+    display: flex;
+    background-color: #FFFFFF;
+    /* border: 4px solid black; */
+  }
+
+  .navbarContainer .logOutBtn{
+    background-color: #156fff;
+    color: white;
+    border: none;
+    width: 8em;
+    height: 4em;
+    border-radius: 10px;
+    padding: 0.5em 1em;
+    cursor: pointer;
+  }
+
+  .navbarContainer ul{
+    display: flex;
+    list-style: none;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbarContainer img{
+    width: 40%;
+    object-fit: cover;
+  }

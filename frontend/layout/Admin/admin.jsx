@@ -1,26 +1,30 @@
-import { useAuth } from "../../controller/AuthContext";
+import { useUserData } from "../../context/UserContext";
 import styles from "./admin.module.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import MainModal from "../../components/modal/mainModal";
+import ProjectsListLayout from "../../layout/ProjectsListLayout/ProjectsListLayout"
+import Navbar from "../../components/navbar/navbar";
+
+
 
 export default function Admin() {
-  const { logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  console.log("admin", isAuthenticated);
+  const { userData, setUserData } = useUserData();
 
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  }
+  const handleLogout =  () => {
+    setUserData((prev) => ({ ...prev, loginState: false }));
+    console.log("userData.loginState", userData.loginState);
+    navigate("/");
+  };
 
   return (
     <>
-      {isAuthenticated ? (
+      <MainModal />
+      {userData.loginState && (
         <div className={styles.adminContainer}>
-          <h1>Admin</h1>
-          <button onClick={handleLogout}>Log out</button>
+          <Navbar handleLogOut={handleLogout} />
+          {userData.rooms.length > 0 ? <ProjectsListLayout /> : navigate(`/admin/user/${userData.id}/room`)}
         </div>
-      ) : (
-        <h1>Not logged in</h1>
       )}
     </>
   );

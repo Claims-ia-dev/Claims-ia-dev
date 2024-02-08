@@ -2,27 +2,15 @@ import styles from "../../src/App.module.css";
 import InputEmail from "../../components/inputs/email/inputEmail";
 import InputPassword from "../../components/inputs/password/inputPassword";
 import { logInUser } from "../../controller/userOperation";
-import { useAuth } from "../../controller/AuthContext";
-import { useNavigate } from 'react-router-dom';
+import { useUserData } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-
-export const AdminWindow = () => {
-  const { logout } = useAuth();
-
-  return (
-    <div className={styles.adminContainer}>
-      <h1>Admin</h1>
-      <button onClick={logout}>Log out</button>
-    </div>
-  );
-};
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorLogin, setErrorLogin] = useState(false);
-  const { login } = useAuth();
+  const { setUserData } = useUserData();
 
   const navigate = useNavigate();
 
@@ -34,15 +22,19 @@ export default function Home() {
     }
 
     const loginResult = await logInUser({ email, password });
+    const { data } = loginResult;
 
     if (loginResult) {
-      await login();
-      navigate('/admin');
-      setEmail("");
-      setPassword("");
+      setUserData((prev) => ({
+        ...prev,
+        email: data[0].email,
+        password: data[0].password,
+        id: data[0].id,
+        loginState: true,
+      }));
+      navigate(`/admin/user/${data[0].id}`);
     } else {
-      setEmail("");
-      setPassword("");
+      setUserData({ email: "", password: "" });
       setErrorLogin(true);
     }
   };
@@ -73,7 +65,6 @@ export default function Home() {
                   setPassword={setPassword}
                   stateLogin={errorLogin}
                   handleState={setErrorLogin}
-
                 />
                 <div className={`${styles.formGroup} ${styles.displayFlex}`}>
                   <div className={styles.textContainer}>
@@ -96,8 +87,6 @@ export default function Home() {
         </section>
         <section className={styles.imageContainer}></section>
       </main>
-
-      {/* {isAuthenticated ? <AdminWindow /> : <></>} */}
     </>
   );
 }

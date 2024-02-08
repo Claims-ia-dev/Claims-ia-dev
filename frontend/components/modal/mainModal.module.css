@@ -1,0 +1,145 @@
+.container{
+    height: 100vh;
+    width: 100vw;
+    background-color: transparent;
+    position: fixed;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideDown 1s;
+    animation-fill-mode: forwards;
+}
+
+.containerOff{
+    height: 100vh;
+    width: 100vw;
+    background-color: transparent;
+    position: fixed;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideUp 1s;
+    animation-fill-mode: forwards;
+}
+
+
+.modalContainerDelete{
+    max-width: 40em;
+    width: 70%;
+    height: 20em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.66);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.6px);
+    -webkit-backdrop-filter: blur(5.6px);
+    border: 2px solid #156FFF;
+}
+
+.iconInfo{
+    color: #FF5715;
+    font-size: 5em;
+}
+
+
+.modalContent{
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* border: 2px solid red; */
+}
+
+.modalContent h2{
+    font-size: 2em;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+}
+
+.modalContent p{
+    width: 60%;
+    font-size: 1.2em;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+}
+
+
+.buttonsContainer{
+    display: flex;
+    padding: 1em;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 2em;
+    /* gap: 3em; */
+    /* border: 2px solid red; */
+ }
+
+ .btnControl{
+    max-width: 10em;
+    height: 4em;
+    width: 100%;
+    display: flex;
+    border-radius: 10px;
+    justify-content: space-evenly;
+    align-items: center;
+    transition: 0.3s;
+    font-size: 1em;
+    color: rgb(249, 246, 246);
+    font-weight: 600;
+    text-align: center;
+}
+
+.iconBtn{
+    color: #fff;
+    font-size: 2em;
+}
+
+
+
+.btnControl:nth-child(1){
+    background: #FFFFFF;
+    border-radius: 10px;
+    border: 2px solid #156FFF;
+    color: #156FFF;
+
+}
+
+.btnControl:nth-child(2){
+    background: #156FFF;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+}
+
+.btnControl:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+@keyframes slideDown {
+    0%{
+        transform: translateY(-100%);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    0%{
+        transform: translateY(0);
+    }
+    100%{
+        transform: translateY(-100%);
+    }
+}
