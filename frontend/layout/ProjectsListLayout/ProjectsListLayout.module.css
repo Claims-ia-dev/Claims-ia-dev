@@ -1,3 +1,16 @@
+.adminContainer {
+  width: 100%;
+  height: 100vh;
+  background-color: #eeeeee;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* position: absolute;
+  top: 0;
+  z-index: 3; */
+}
+
   .projectListContainer{
     width: 100%;
     height: 80%;
@@ -31,10 +44,14 @@
     align-items: center;
     padding: 1em;
     background-color: #FFFFFF;
-    border: 2px solid #FF5715;
+    border: 1px solid #FF5715;
     border-radius: 10px;
     color: #FF5715;
     font-size: clamp(1em, 1.5vw, 1.5em);
+  }
+
+  .projectCard:hover{
+    background-color: #f6f8fd;
   }
 
   .iconsContainer{
@@ -58,12 +75,11 @@
     justify-content: center;
     align-items: center;
     gap: 1em;
-    /* border: 1px solid black; */
   }
 
   .btnProject{
     width: 100%;
-    height: 3.5rem;
+    height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,7 +91,11 @@
   .btnProject:nth-child(1){
     background-color: #FFFFFF;
     color: #156fff;
-    border: 2px solid #156fff;
+    border: 1px solid #156fff;
+  }
+
+  .btnProject:nth-child(1):hover{
+    background-color: rgba(255, 255, 255, 0.638);
   }
 
   .btnProject:nth-child(2){
@@ -85,6 +105,15 @@
     border: none;
   }
 
+  .btnProject:nth-child(2):hover{
+    background-color: #156fffd2;
+  }
+
+
+  .iconProject{
+    cursor: pointer;
+    font-size: 1.8em;
+  }
 
   @media (max-width: 900px) {
     .projectsContainer{

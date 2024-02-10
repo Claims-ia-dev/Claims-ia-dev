@@ -9,7 +9,13 @@
     align-items: center;
     animation: slideDown 1s;
     animation-fill-mode: forwards;
+    transition: opacity 2s ease-out;
 }
+
+.fadeOut {
+    opacity: 0;
+    pointer-events: none;
+  }
 
 .containerOff{
     height: 100vh;
@@ -26,8 +32,7 @@
 
 
 .modalContainerDelete{
-    max-width: 40em;
-    width: 70%;
+    width: min(30em, 90%);
     height: 20em;
     padding: 1em;
     display: flex;

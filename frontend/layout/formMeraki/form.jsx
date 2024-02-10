@@ -32,7 +32,7 @@ export default function Home() {
         id: data[0].id,
         loginState: true,
       }));
-      navigate(`/admin/user/${data[0].id}`);
+      navigate(`/admin/user/${data[0].id}/room`);
     } else {
       setUserData({ email: "", password: "" });
       setErrorLogin(true);

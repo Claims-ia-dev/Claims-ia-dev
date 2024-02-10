@@ -101,7 +101,6 @@ export const setUserRoomMVPAnswer = (req, res) => {
 
       const roomId = room[0].id;
 
-      // Insertar respuestas predeterminadas en room_answers
       const insertAnswersSql = `
         INSERT INTO room_answers (room_id, question_id, answer, roommvp_id)
         VALUES (?, ?, FALSE, ?);
@@ -271,25 +270,25 @@ export const getRoomAnswers = (req, res) => {
 
 
 
-
-
 export function getUserRoomsWithAnswers(req, res) {
   const { userId } = req.params;
 
   const sql = `
-    SELECT 
-      rm.id AS roommvp_id, 
-      rm.name AS roommvp_name, 
+    SELECT
+      rm.id AS roommvp_id,
+      rm.name AS roommvp_name,
       rm.roomtype AS roomType,
-      ra.question_id,
+      q.code AS question_code,
       ra.answer
-    FROM 
+    FROM
       users u
-    JOIN 
+    JOIN
       roommvp rm ON u.id = rm.user_id
-    LEFT JOIN 
+    LEFT JOIN
       room_answers ra ON rm.id = ra.roommvp_id
-    WHERE 
+    LEFT JOIN
+      questions q ON ra.question_id = q.id
+    WHERE
       u.id = ?;
   `;
 
@@ -299,7 +298,29 @@ export function getUserRoomsWithAnswers(req, res) {
       res.status(500).json({ error: "Error interno del servidor" });
     } else {
       console.log("Consulta realizada correctamente");
-      res.status(200).json(result);
+
+      const roomsWithQuestions = result.reduce((acc, row) => {
+        const { roommvp_id, roommvp_name, roomType, question_code, answer } = row;
+
+        const existingRoom = acc.find((room) => room.roommvp_id === roommvp_id);
+
+        const booleanAnswer = answer === 1;
+
+        if (!existingRoom) {
+          acc.push({
+            roommvp_id,
+            roommvp_name,
+            roomType,
+            questions: [{ question_code, answer: booleanAnswer }],
+          });
+        } else {
+          existingRoom.questions.push({ question_code, answer: booleanAnswer });
+        }
+
+        return acc;
+      }, []);
+
+      res.status(200).json(roomsWithQuestions);
     }
   });
 }

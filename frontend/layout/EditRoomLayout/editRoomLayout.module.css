@@ -91,6 +91,10 @@
     color: #B2B2B2;
   }
 
+  .dropdownOption:hover {
+    background-color: #EBF3FF;
+  }
+
   .dropdownOption:nth-child(even) {
     background-color: #EBF3FF;
   }

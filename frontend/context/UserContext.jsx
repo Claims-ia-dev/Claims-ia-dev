@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
         setUserData((prev) => ({ ...prev, rooms: res, refetch: false}));
       });
     }
-  }, [userData.loginState, userData.id, userData.rooms.length, userData.refetch]);
+  }, [userData.loginState, userData.id, userData.rooms?.length, userData.refetch]);
 
   console.log("userData", userData);
   return (

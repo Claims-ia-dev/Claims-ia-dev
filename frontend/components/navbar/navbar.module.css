@@ -3,7 +3,7 @@
     top: 0;
     padding: 2em;
     width: 100%;
-    height: 5em;
+    height: 4em;
     display: flex;
     background-color: #FFFFFF;
     /* border: 4px solid black; */
@@ -13,11 +13,15 @@
     background-color: #156fff;
     color: white;
     border: none;
-    width: 8em;
-    height: 4em;
+    width: 6em;
+    height: 3em;
     border-radius: 10px;
     padding: 0.5em 1em;
     cursor: pointer;
+  }
+
+  .navbarContainer .logOutBtn:hover{
+    background-color: #3280fe;
   }
 
   .navbarContainer ul{
@@ -29,6 +33,6 @@
   }
 
   .navbarContainer img{
-    width: 40%;
+    width: min(13em, 65%);
     object-fit: cover;
   }

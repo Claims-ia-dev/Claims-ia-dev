@@ -1,0 +1,91 @@
+.estimateContainer{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #eeeeee;
+}
+
+.infoContainer{
+    width: min(50em, 90%);
+    background-color: #6CDEAB;
+    border-radius: 15px;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: -7em;
+}
+
+.infoContainer p{
+    margin-top: 2em;
+    position: absolute;
+    top: 0;
+    font-size: clamp(0.5em, 1.5vw, 1em);
+}
+
+.infoContainer h1{
+    font-size: clamp(3.5em, 5vw, 5em);
+}
+
+
+.projectsBtnContainer{
+    width: min(30em, 95%);
+    height: auto;
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    position: absolute;
+    bottom: 10%;
+    margin-bottom: 1em;
+  }
+
+  .btnProject:nth-child(1){
+    background-color: #FFFFFF;
+    color: #156fff;
+    border: 1px solid #156fff;
+  }
+
+  .btnProject:nth-child(1):hover{
+    background-color: rgba(255, 255, 255, 0.638);
+  }
+
+  .btnProject:nth-child(2){
+    background-color: #156fff;
+    color: white;
+    outline: none;
+    border: none;
+  }
+
+  .btnProject:nth-child(2):hover{
+    background-color: #156fffd2;
+  }
+
+
+  .btnProject{
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    border-radius: 10px;
+    font-size: clamp(1em, 1.5vw, 1.5em);
+  }
+
+  @media (max-width: 768px){
+    .infoContainer p{
+        margin-top: 2em;
+        font-size: clamp(1em, 1.5vw, 1.5em);
+        position: absolute;
+        text-align: center;
+        top: 0;
+    }
+  }
