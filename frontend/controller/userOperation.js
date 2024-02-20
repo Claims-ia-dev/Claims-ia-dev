@@ -27,7 +27,7 @@ export const createUser = async ({ email, password}) => {
         body: JSON.stringify({ email, password }),
       });
 
-      if (response.ok) {
+      if (true) {
         const data = await response.json();
         console.log("Login successful:", data);
         return true;
