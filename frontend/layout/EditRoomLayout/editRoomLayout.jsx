@@ -19,8 +19,8 @@ export default function CreateProjectContainer() {
 
   const [questionsView, setQuestionsView] = useState(false);
 
-  const [roomName, setRoomName] = useState(selectedRoom.roommvp_name);
-  const [roomType, setRoomType] = useState(selectedRoom.roomType);
+  const [roomName, setRoomName] = useState(selectedRoom?.roommvp_name);
+  const [roomType, setRoomType] = useState(selectedRoom?.roomType);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,13 +44,11 @@ export default function CreateProjectContainer() {
       try {
         const answers = await getRoomAnswers(userData.id, userData.roomIdSelected);
         if (answers) {
-          // Mapea el array de respuestas al objeto usando reduce
           const newCheckboxStates = answers.reduce((acc, answer) => {
-            acc[answer.question_id -1 ] = answer.answer === 1; // Convierte 1 a true y 0 a false
+            acc[answer.question_id -1 ] = answer.answer === 1;
             return acc;
           }, {});
 
-          // Actualiza el estado
           setCheckboxStates((prevStates) => ({ ...prevStates, ...newCheckboxStates }));
         }
       } catch (error) {
@@ -61,12 +59,6 @@ export default function CreateProjectContainer() {
   }, [userData.roomIdSelected, userData.id,]);
 
 
-  const handleCheckboxChange = (index) => {
-    setCheckboxStates((prevStates) => ({
-      ...prevStates,
-      [index]: !prevStates[index],
-    }));
-  };
 
   const handlePrevious = () => {
     setCurrentPage(currentPage - 1);

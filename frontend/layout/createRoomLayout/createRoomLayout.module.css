@@ -100,3 +100,9 @@
       margin-right: 0;
     }
   }
+
+  @media (max-width: 500px) {
+    .projectsContainer p {
+      width: min(31rem, 90%);
+    }
+  }

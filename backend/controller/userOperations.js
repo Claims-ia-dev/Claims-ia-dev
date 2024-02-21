@@ -51,16 +51,15 @@ export const setUserRoomMVP = (req, res) => {
       console.error("Error al realizar la consulta para crear la habitación:", err);
       res.status(500).json({ error: "Error interno del servidor" });
     } else {
-      const roomMvpId = result.insertId; // Obtenemos el ID del cuarto recién creado
+      const roomMvpId = result.insertId;
 
-      // Ahora, insertamos las respuestas
       const insertAnswerSql = `
         INSERT INTO room_answers (question_id, answer, roommvp_id)
         VALUES (?, ?, ?);
       `;
 
       Object.entries(checkboxStates).forEach(([questionIndex, answer]) => {
-        const questionId = parseInt(questionIndex) + 1; // Convertir a entero y ajustar por empezar desde 0
+        const questionId = parseInt(questionIndex) + 1;
 
         db.query(insertAnswerSql, [questionId, answer, roomMvpId], (err) => {
           if (err) {
@@ -81,7 +80,6 @@ export const setUserRoomMVPAnswer = (req, res) => {
   const { userId } = req.params;
   const { roommvp_id } = req.body;
 
-  // Obtener las preguntas y sus IDs
   const getQuestionsSql = `SELECT id FROM questions`;
   db.query(getQuestionsSql, (err, questions) => {
     if (err) {
@@ -90,7 +88,6 @@ export const setUserRoomMVPAnswer = (req, res) => {
       return;
     }
 
-    // Obtener el ID de la habitación basado en roommvp_id
     const getRoomIdSql = `SELECT id FROM roommvp WHERE roommvp_id = ?`;
     db.query(getRoomIdSql, [roommvp_id], (err, room) => {
       if (err) {
@@ -142,12 +139,9 @@ export function getUserRoomMVP(req, res) {
   });
 }
 
-
-
 export const deleteUserRoomMVP = (req, res) => {
   const { roomId } = req.params;
 
-  // Comienza por eliminar las respuestas relacionadas en room_answers
   const deleteAnswersSql = `
     DELETE FROM room_answers WHERE roommvp_id = ?;
   `;
@@ -157,7 +151,6 @@ export const deleteUserRoomMVP = (req, res) => {
       console.error("Error al eliminar respuestas:", err);
       res.status(500).json({ error: "Error interno del servidor" });
     } else {
-      // Ahora, elimina la habitación en roommvp
       const deleteRoomSql = `
         DELETE FROM roommvp WHERE id = ?;
       `;
@@ -180,6 +173,42 @@ export const deleteUserRoomMVP = (req, res) => {
   });
 };
 
+export const deleteUserRoomsMVP = (req, res) => {
+  const { userId } = req.params;
+
+  const deleteAnswersSql = `
+    DELETE ra
+    FROM room_answers ra
+    JOIN roommvp rm ON ra.roommvp_id = rm.id
+    WHERE rm.user_id = ?;
+  `;
+
+  db.query(deleteAnswersSql, [userId], (err, result) => {
+    if (err) {
+      console.error("Error al eliminar respuestas:", err);
+      res.status(500).json({ error: "Error interno del servidor" });
+    } else {
+      const deleteRoomSql = `
+        DELETE FROM roommvp WHERE user_id = ?;
+      `;
+
+      db.query(deleteRoomSql, [userId], (err, result) => {
+        if (err) {
+          console.error("Error al eliminar la habitación:", err);
+          res.status(500).json({ error: "Error interno del servidor" });
+        } else {
+          if (result.affectedRows > 0) {
+            console.log("Habitaciones y respuestas eliminadas correctamente");
+            res.status(200).json({ success: true });
+          } else {
+            console.log("No se encontraron habitaciones para el usuario proporcionado");
+            res.status(404).json({ error: "No se encontraron habitaciones para el usuario proporcionado" });
+          }
+        }
+      });
+    }
+  });
+};
 
 export const updateUserRoomMVP = (req, res) => {
   const { userId } = req.params;
@@ -202,7 +231,6 @@ export const updateUserRoomMVP = (req, res) => {
         if (result.affectedRows > 0) {
           console.log("Habitación actualizada correctamente");
 
-          // Ahora, actualiza las respuestas
           const updateAnswerSql = `
             UPDATE room_answers
             SET answer = ?
@@ -241,8 +269,6 @@ export const updateUserRoomMVP = (req, res) => {
   );
 };
 
-
-
 export const getRoomAnswers = (req, res) => {
   const { roomId } = req.params;
 
@@ -267,8 +293,6 @@ export const getRoomAnswers = (req, res) => {
     }
   });
 };
-
-
 
 export function getUserRoomsWithAnswers(req, res) {
   const { userId } = req.params;
@@ -304,6 +328,7 @@ export function getUserRoomsWithAnswers(req, res) {
 
         const existingRoom = acc.find((room) => room.roommvp_id === roommvp_id);
 
+        // Convertir el valor de 'answer' a booleano
         const booleanAnswer = answer === 1;
 
         if (!existingRoom) {
@@ -311,10 +336,10 @@ export function getUserRoomsWithAnswers(req, res) {
             roommvp_id,
             roommvp_name,
             roomType,
-            questions: [{ question_code, answer: booleanAnswer }],
+            questions: { [question_code]: booleanAnswer },
           });
         } else {
-          existingRoom.questions.push({ question_code, answer: booleanAnswer });
+          existingRoom.questions[question_code] = booleanAnswer;
         }
 
         return acc;

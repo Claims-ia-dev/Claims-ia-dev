@@ -31,7 +31,7 @@ export const setUserRoomMVP = async (userId, roomName, roomType, checkboxStates)
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ roomName, roomType, checkboxStates }), // Incluye roomType en el cuerpo de la solicitud
+      body: JSON.stringify({ roomName, roomType, checkboxStates }),
     });
 
     if (response.ok) {
@@ -102,7 +102,29 @@ export const deleteUserRoomMVP = async (userId, roomId) => {
   }
 };
 
+export const deleteUserRoomsMVP = async (userId) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      console.log("Rooms deleted successfully");
+      return true;
+    } else {
+      console.error("Failed to delete rooms");
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+  }
+}
+
 export const getRoomAnswers = async (userId, roomId) => {
+  console.log("userId:", userId);
+  console.log("roomId:", roomId);
   try {
     const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP/${roomId}/questions`);
     const data = await response.json();

@@ -5,6 +5,7 @@ import { logInUser } from "../../controller/userOperation";
 import { useUserData } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -47,6 +48,12 @@ export default function Home() {
     }
   }, [errorLogin]);
 
+  const modalVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.3 } },
+    exit: { opacity: 0, transition: { duration: 0.3 }, y: 30},
+  };
+
   return (
     <>
       <main>
@@ -76,16 +83,27 @@ export default function Home() {
                     Sign in
                   </button>
                 </div>
-                {errorLogin && (
-                  <div className={`${styles.formGroup} ${styles.animationIn}`}>
-                    <p>Incorrect email or password</p>
-                  </div>
-                )}
               </form>
+              {/* <AnimatePresence> */}
+                  {errorLogin && (
+                    // <motion.div
+                    <div
+                      // key="errorLogin"
+                      className={styles.formGroupMsgValidation}
+                      // initial="hidden"
+                      // animate="visible"
+                      // exit="exit"
+                      // variants={modalVariants}
+                    >
+                      <p>Incorrect email or password</p>
+                    {/* </motion.div> */}
+                    </div>
+                  )}
+                {/* </AnimatePresence> */}
             </div>
           </article>
         </section>
-        <section className={styles.imageContainer}></section>
+        {/* <section className={styles.imageContainer}></section> */}
       </main>
     </>
   );

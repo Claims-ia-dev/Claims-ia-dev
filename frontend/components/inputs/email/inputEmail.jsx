@@ -39,6 +39,8 @@ export default function EmailInput({email, setEmail, stateLogin, handleStateLogi
           type="email"
           id="email"
           name="email"
+          required
+          pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
         />
         {!isValidEmail && <p>Please provide a valid email</p>}
       </div>

@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./mainModal.module.css";
 import { AiFillCloseCircle, AiFillWarning, AiFillCheckCircle } from "react-icons/ai";
 import { useNotificationContext } from "../../context/NotificationContext";
@@ -31,10 +32,22 @@ export default function MainModal() {
     }
   };
 
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.5 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+    exit: { opacity: 0, scale: 0, transition: { duration: 0.3 } },
+  };
+
   return (
-    <>
+    <AnimatePresence>
       {isVisible && (
-        <div className={styles.container}>
+        <motion.div
+          className={styles.container}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={modalVariants}
+        >
           <div className={styles.modalContainerDelete}>
             <div className={styles.modalContent}>
               <p style={{ marginTop: "1em", fontSize: "1.4em", width: "100%", color: "#156FFF" }}>
@@ -42,18 +55,19 @@ export default function MainModal() {
               </p>
               <AiFillWarning className={styles.iconInfo} />
               <div className={styles.buttonsContainer}>
-                <button onClick={() => { handleDeleteFunction() }} className={styles.btnControl}>
-                  <AiFillCheckCircle color="#156FFF" className={styles.iconBtn} />Delete
+                <button onClick={() => handleDeleteFunction()} className={styles.btnControl}>
+                  <AiFillCheckCircle color="#156FFF" className={styles.iconBtn} />
+                  Delete
                 </button>
-                <button onClick={() => { setNotification({ ...notification, showModal: false }) }} className={styles.btnControl}>
-                  <AiFillCloseCircle className={styles.iconBtn} />Cancel
+                <button onClick={() => setNotification({ ...notification, showModal: false })} className={styles.btnControl}>
+                  <AiFillCloseCircle className={styles.iconBtn} />
+                  Cancel
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 }
-

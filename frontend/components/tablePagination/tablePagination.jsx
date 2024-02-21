@@ -1,5 +1,4 @@
 import styles from "./tablePagination.module.css";
-import { useState } from "react";
 import Toggle from "../inputs/toggle/toggle";
 
 export default function TablePagination({
@@ -22,7 +21,7 @@ export default function TablePagination({
           <thead>
             <tr>
               <th>#</th>
-              <th>Questions</th>
+              <th>Claims description</th>
               <th>Select</th>
             </tr>
           </thead>

@@ -35,6 +35,7 @@ const PasswordInput = ({ password, setPassword, stateLogin, handleStateLogin }) 
         type={passwordVisible ? "text" : "password"}
         id="password"
         name="password"
+        required
       />
       <span
         id="showPass"

@@ -23,10 +23,12 @@
 
   .selectedValue {
     cursor: pointer;
+    width: 100%;
+    color: #d9d9d9;
   }
 
-  .selectedValue p{
-    width: auto;
+  .textInfo p{
+    width: 100%;
   }
 
   .dropdownOptions {
@@ -34,10 +36,10 @@
     top: 100%;
     left: 0;
     width: 100%;
-    height: 11em; /* Ajusta el alto del menú desplegable */
+    height: 11em;
     overflow-y: auto;
     border: 3px solid #156fff;
-    border-top: none; /* Para evitar la doble línea superior */
+    border-top: none;
     box-shadow: 0px 0px 5px 0px #d9d9d9;
     background-color: #FFFFFF;
     margin-top: 1em;
@@ -45,10 +47,12 @@
     border-radius: 10px;
     padding-top: 0.5em;
   }
+
   .dropdownOption {
     padding: 1em;
     cursor: pointer;
     color: #B2B2B2;
+    width: auto2\;
   }
 
   .dropdownOption:nth-child(even) {

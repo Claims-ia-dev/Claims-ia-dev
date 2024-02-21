@@ -21,7 +21,7 @@ main {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
@@ -47,14 +47,13 @@ main {
   align-items: center;
 }
 
-.imageContainer {
+/* .imageContainer {
   width: 40%;
   height: 100vh;
-  /* background-color: green; */
   opacity: 0.8;
   background: url("../public/background.png");
   background-size: cover;
-}
+} */
 
 .formInfoContainer {
   width: 30em;
@@ -84,7 +83,6 @@ main {
   flex-direction: column;
   justify-content: flex-start ;
   align-items: center;
-  /* background-color: green; */
 }
 
 .formGroup {
@@ -96,23 +94,21 @@ main {
   position: relative;
 }
 
-.animationIn{
-  animation: bounceIn 1s ease-in-out;
+.formGroupMsgValidation {
+  width: 270px;
+  height: 50px;
+  margin-top: 1em;
+  border-radius: 10px;
+  outline: none;
+  position: relative;
+  background-color: #fbe5c3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@keyframes bounceIn {
-  0% {
-    transform: scale(0.1);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+
+
 
 .formGroup:nth-child(4) {
   background-color: #fbe5c3;
@@ -211,9 +207,12 @@ main {
   }
 
   .displayFlex button{
-    /* margin-top: 1em; */
     width: 270px;
-    height: 6em;  
+    height: 6em;
+  }
+
+  .formGroupMsgValidation{
+    padding: 1em;
   }
 
 }
