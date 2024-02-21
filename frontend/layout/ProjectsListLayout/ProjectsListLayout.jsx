@@ -6,12 +6,14 @@ import { useNotificationContext } from "../../context/NotificationContext";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "../Admin/admin.jsx";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState} from "react";
 
 
 export default function ProjectsContainer () {
     const { userData, setUserData } = useUserData();
     const { setNotification, notification } = useNotificationContext();
     const navigate = useNavigate();
+    const [routeActive, setRouteActive] = useState(null);
 
     const variants = {
       hidden:{
@@ -25,11 +27,24 @@ export default function ProjectsContainer () {
       },
       }
 
+      useEffect(() => {
+        if(userData.rooms.length <= 0){
+          setRouteActive(true);
+        }
+        else{
+          setRouteActive(false);
+        }
+      }, [userData, navigate]);
 
       const handleEditFunction = (id) => {
         setUserData({ ...userData, roomIdSelected: id });
         navigate(`/admin/user/${userData.id}/room/edit`);
       }
+
+      const activateStyle = routeActive
+        ? styles.btnProjectDeactivate
+        : styles.btnProjectActivate;
+
 
 
 
@@ -68,7 +83,7 @@ export default function ProjectsContainer () {
             </AnimatePresence>
             <article className={styles.projectsBtnContainer}>
               <button onClick={()=>{navigate(`/admin/user/${userData.id}/room`)}} className={styles.btnProject}>Add new room</button>
-              <button onClick={()=>{navigate(`/admin/user/${userData.id}/estimate`)}} className={styles.btnProject}>Calculate estimate</button>
+              <button onClick={()=>{!routeActive && navigate(`/admin/user/${userData.id}/estimate`)}} className={activateStyle}>Calculate estimate</button>
             </article>
           </section>
       </AdminLayout>
