@@ -28,7 +28,7 @@ export default function ProjectsContainer () {
       }
 
       useEffect(() => {
-        if(userData.rooms.length <= 0){
+        if(userData?.rooms?.length <= 0){
           setRouteActive(true);
         }
         else{

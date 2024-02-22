@@ -2,7 +2,13 @@ import styles from './dropDownInput.module.css';
 import { FaChevronDown } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
-export default function DropdownInput ({ value, placeholder, options, handleSelect, isOpen, setIsOpen }) {
+export default function DropdownInput ({ type, value, placeholder, options, handleSelect, isOpen, setIsOpen, handleSelectId }) {
+
+  const handleSelectBoth = async(option) => {
+    await handleSelect(option.name);
+    await handleSelectId(option.id);
+  }
+
   return (
     <div onClick={() => setIsOpen(!isOpen)} className={styles.dropdownInput}>
       <div className={styles.selectedValue}>
@@ -15,7 +21,10 @@ export default function DropdownInput ({ value, placeholder, options, handleSele
       {isOpen && (
         <div className={`${styles.dropdownOptions} ${styles.dropdownOptionsOpen}`}>
           {options.map((option, index) => (
-            <div key={index} onClick={() => handleSelect(option.name)} className={styles.dropdownOption}>
+            <div
+              key={index}
+              onClick={() => {console.log(option); type === "second" ? handleSelectBoth(option) : handleSelect(option.name)}}
+              className={styles.dropdownOption}>
               {option.name}
             </div>
           ))}

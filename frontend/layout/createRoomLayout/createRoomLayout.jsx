@@ -11,6 +11,8 @@ import TablePagination from "../../components/tablePagination/tablePagination.js
 export default function CreateProjectContainer() {
   const [roomName, setRoomName] = useState("");
   const [roomType, setRoomType] = useState("");
+  const [serviceTypeName, setServiceTypeName] = useState("");
+  const [serviceTypeId, setServiceTypeId] = useState("");
   const [questionsView, setQuestionsView] = useState(false);
 
   const pageSize = 15;
@@ -30,7 +32,8 @@ export default function CreateProjectContainer() {
   const { userData, setUserData } = useUserData();
   const navigate = useNavigate();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenFirst, setIsOpenFirst] = useState(false);
+  const [isOpenSecond, setIsOpenSecond] = useState(false);
 
   const handlePrevious = () => {
     setCurrentPage(currentPage - 1);
@@ -45,6 +48,8 @@ export default function CreateProjectContainer() {
     setQuestionsView(false);
     setRoomName("");
     setRoomType("");
+    setServiceTypeName("");
+    setServiceTypeId("");
   };
 
   const handleLast = async () => {
@@ -53,6 +58,8 @@ export default function CreateProjectContainer() {
       userData.id,
       roomName,
       roomType,
+      serviceTypeName,
+      serviceTypeId,
       checkboxStates
     );
     if (!response) {
@@ -61,10 +68,12 @@ export default function CreateProjectContainer() {
     }
     setUserData((prev) => ({
       ...prev,
-      refetch: !prev.refetch,
+      refetch: true,
     }));
     setRoomName("");
     setRoomType("");
+    setServiceTypeName("");
+    setServiceTypeId("");
     navigate(`/admin/user/${userData.id}/rooms`);
   };
 
@@ -91,8 +100,29 @@ export default function CreateProjectContainer() {
     { name: "VANITY_AREA" },
   ];
 
+  const typeServices = [
+    { id: "type_service_fire",
+      name:"Fire"
+    },
+    { id: "type_service_packouts_packbacks_storage_contents_cleaning",
+      name: "Packouts, Packbacks, Storage Contents Cleaning"
+    },
+    {
+      id: "type_service_repairs_rebuild_construction",
+      name: "Repairs, Rebuild, Construction"
+    },
+    {
+      id: "type_service_water_mitigation_mold_remediation_ems",
+      name: "Water Mitigation, Mold Remediation, EMS"
+    },
+    {
+      id: "type_service_other",
+      name: "Other"
+    }
+  ];
+
   const handleCreateRoom = async () => {
-    if (roomName === "" || roomType === "") {
+    if (roomName === "" || roomType === "" || serviceTypeName === "") {
       console.error(
         "Por favor, completa ambos campos antes de crear la habitación"
       );
@@ -104,7 +134,7 @@ export default function CreateProjectContainer() {
   return (
     <AdminLayout>
       {!questionsView && (
-        <section onClick={() => { isOpen && setIsOpen(false);}} className={styles.projectsContainer}>
+        <section onClick={() => { isOpenFirst && setIsOpenFirst(false); isOpenSecond && setIsOpenSecond(false)}} className={styles.projectsContainer}>
           <p> Hello, before we start, please write the name of the room for a quote.</p>
           <input
             type="text"
@@ -115,16 +145,27 @@ export default function CreateProjectContainer() {
             onChange={(e) => setRoomName(e.target.value)}
           />
           <DropdownInput
+            type="first"
             value={roomType}
             placeholder="Select the type of room"
             options={roomTypes}
             handleSelect={(selectedValue) => setRoomType(selectedValue)}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            isOpen={isOpenFirst}
+            setIsOpen={setIsOpenFirst}
+          />
+          <DropdownInput
+            type="second"
+            value={serviceTypeName}
+            placeholder="Select type service"
+            options={typeServices}
+            handleSelect={(selectedValue) => setServiceTypeName(selectedValue)}
+            handleSelectId={(selectedId) => setServiceTypeId(selectedId)}
+            isOpen={isOpenSecond}
+            setIsOpen={setIsOpenSecond}
           />
           <button
             onClick={() => {handleCreateRoom();}}
-            className={roomName && roomType ? styles.btnProject : styles.btnProjectDeny}>
+            className={roomName && roomType && serviceTypeName ? styles.btnProject : styles.btnProjectDeny}>
             Create Room
           </button>
         </section>

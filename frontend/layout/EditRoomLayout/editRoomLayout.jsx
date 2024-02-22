@@ -10,7 +10,6 @@ import DropdownInput from "../../components/inputs/dropDownInput/dropDownInput.j
 import TablePagination from "../../components/tablePagination/tablePagination.jsx";
 
 export default function CreateProjectContainer() {
-
   const { userData, setUserData } = useUserData();
 
   const selectedRoom = userData.rooms.find(
@@ -21,8 +20,15 @@ export default function CreateProjectContainer() {
 
   const [roomName, setRoomName] = useState(selectedRoom?.roommvp_name);
   const [roomType, setRoomType] = useState(selectedRoom?.roomType);
+  const [serviceTypeName, setServiceTypeName] = useState(
+    selectedRoom?.serviceTypeName
+  );
+  const [serviceTypeId, setServiceTypeId] = useState(
+    selectedRoom?.serviceTypeId
+  );
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenFirst, setIsOpenFirst] = useState(false);
+  const [isOpenSecond, setIsOpenSecond] = useState(false);
 
   const pageSize = 15;
   const [currentPage, setCurrentPage] = useState(0);
@@ -35,30 +41,32 @@ export default function CreateProjectContainer() {
   );
   const [checkboxStates, setCheckboxStates] = useState({});
 
-
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const updateAnswers = async () => {
       try {
-        const answers = await getRoomAnswers(userData.id, userData.roomIdSelected);
+        const answers = await getRoomAnswers(
+          userData.id,
+          userData.roomIdSelected
+        );
         if (answers) {
           const newCheckboxStates = answers.reduce((acc, answer) => {
-            acc[answer.question_id -1 ] = answer.answer === 1;
+            acc[answer.question_id - 1] = answer.answer === 1;
             return acc;
           }, {});
 
-          setCheckboxStates((prevStates) => ({ ...prevStates, ...newCheckboxStates }));
+          setCheckboxStates((prevStates) => ({
+            ...prevStates,
+            ...newCheckboxStates,
+          }));
         }
       } catch (error) {
         console.error("Error al obtener respuestas:", error);
       }
     };
     updateAnswers();
-  }, [userData.roomIdSelected, userData.id,]);
-
-
+  }, [userData.roomIdSelected, userData.id]);
 
   const handlePrevious = () => {
     setCurrentPage(currentPage - 1);
@@ -75,18 +83,28 @@ export default function CreateProjectContainer() {
 
   const handleLast = async () => {
     setCurrentPage(totalPages - 1);
-    const response = await updateUserRoomMVP(userData.id, roomName, roomType, userData.roomIdSelected, checkboxStates);
+    const response = await updateUserRoomMVP(
+      userData.id,
+      roomName,
+      roomType,
+      serviceTypeName,
+      serviceTypeId,
+      userData.roomIdSelected,
+      checkboxStates
+    );
     if (!response) {
       console.error("Error al crear la habitación");
       return;
     }
     setUserData((prev) => ({
       ...prev,
-        refetch: !prev.refetch,
+      refetch: !prev.refetch,
     }));
 
     setRoomName("");
     setRoomType("");
+    setServiceTypeName("");
+    setServiceTypeId("");
     navigate(`/admin/user/${userData.id}/rooms`);
   };
 
@@ -113,8 +131,29 @@ export default function CreateProjectContainer() {
     { name: "VANITY_AREA" },
   ];
 
+  const typeServices = [
+    { id: "type_service_fire",
+      name:"Fire"
+    },
+    { id: "type_service_packouts_packbacks_storage_contents_cleaning",
+      name: "Packouts, Packbacks, Storage Contents Cleaning"
+    },
+    {
+      id: "type_service_repairs_rebuild_construction",
+      name: "Repairs, Rebuild, Construction"
+    },
+    {
+      id: "type_service_water_mitigation_mold_remediation_ems",
+      name: "Water Mitigation, Mold Remediation, EMS"
+    },
+    {
+      id: "type_service_other",
+      name: "Other"
+    }
+  ];
+
   const handleCreateRoom = async () => {
-    if (roomName === "" || roomType === "") {
+    if (roomName === "" || roomType === "" || serviceTypeName === "") {
       console.error(
         "Por favor, completa ambos campos antes de crear la habitación"
       );
@@ -140,35 +179,50 @@ export default function CreateProjectContainer() {
             onChange={(e) => setRoomName(e.target.value)}
           />
           <DropdownInput
+            type="first"
             value={roomType}
             placeholder="Select the type of room"
             options={roomTypes}
             handleSelect={(selectedValue) => setRoomType(selectedValue)}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            isOpen={isOpenFirst}
+            setIsOpen={setIsOpenFirst}
           />
-          <button onClick={() => {handleCreateRoom();}} className={styles.btnProject}>
+          <DropdownInput
+            type="second"
+            value={serviceTypeName}
+            placeholder="Select type service"
+            options={typeServices}
+            handleSelect={(selectedValue) => setServiceTypeName(selectedValue)}
+            handleSelectId={(selectedId) => setServiceTypeId(selectedId)}
+            isOpen={isOpenSecond}
+            setIsOpen={setIsOpenSecond}
+          />
+          <button
+            onClick={() => {
+              handleCreateRoom();
+            }}
+            className={styles.btnProject}
+          >
             Edit Room
           </button>
-
         </section>
       )}
       {questionsView && (
         <TablePagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePrevious={handlePrevious}
-        handleNext={handleNext}
-        handleFirst={handleFirst}
-        handleLast={handleLast}
-        data={data}
-        startingIndex={startingIndex}
-        paginatedData={paginatedData}
-        checkboxStates={checkboxStates}
-        handleCheckboxChange={(index) => {
-          setCheckboxStates((prev) => ({
-            ...prev,
-            [index]: !prev[index],
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePrevious={handlePrevious}
+          handleNext={handleNext}
+          handleFirst={handleFirst}
+          handleLast={handleLast}
+          data={data}
+          startingIndex={startingIndex}
+          paginatedData={paginatedData}
+          checkboxStates={checkboxStates}
+          handleCheckboxChange={(index) => {
+            setCheckboxStates((prev) => ({
+              ...prev,
+              [index]: !prev[index],
             }));
           }}
         />
@@ -176,4 +230,3 @@ export default function CreateProjectContainer() {
     </AdminLayout>
   );
 }
-

@@ -24,14 +24,14 @@ export const logInUser = async ({ email, password }) => {
   }
 };
 
-export const setUserRoomMVP = async (userId, roomName, roomType, checkboxStates) => {
+export const setUserRoomMVP = async (userId, roomName, roomType, serviceTypeName, serviceTypeId, checkboxStates) => {
   try {
     const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ roomName, roomType, checkboxStates }),
+      body: JSON.stringify({ roomName, roomType, serviceTypeName, serviceTypeId, checkboxStates }),
     });
 
     if (response.ok) {
@@ -45,14 +45,14 @@ export const setUserRoomMVP = async (userId, roomName, roomType, checkboxStates)
   }
 };
 
-export const updateUserRoomMVP = async (userId, roomName, roomType, roomIdSelected, checkboxStates) => {
+export const updateUserRoomMVP = async (userId, roomName, roomType, serviceTypeName, serviceTypeId, roomIdSelected, checkboxStates) => {
   try {
     const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ roomName, roomType, roomIdSelected, checkboxStates }),
+      body: JSON.stringify({ roomName, roomType,serviceTypeName, serviceTypeId, roomIdSelected, checkboxStates }),
     });
 
     if (response.ok) {
@@ -67,6 +67,7 @@ export const updateUserRoomMVP = async (userId, roomName, roomType, roomIdSelect
 };
 
 export const getUserRoomMVP = async (userId) => {
+  console.log("userId:", userId);
   try {
     const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP`);
     if (response.ok) {
@@ -148,6 +149,30 @@ export const getUserRoomsWithAnswers = async (userId) => {
     if (response.ok) {
       console.log("Respuestas del cuarto:", data);
       return data;
+    } else {
+      console.error("Error al obtener respuestas del cuarto");
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+  }
+};
+
+
+export const getEstimateProject = async (requestData) => {
+  try {
+    const response = await fetch('http://claims.ai.onlinesolutionsusa.net:8080/preditem/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      console.log("Respuestas del cuarto:", responseData);
+      return responseData;
     } else {
       console.error("Error al obtener respuestas del cuarto");
     }

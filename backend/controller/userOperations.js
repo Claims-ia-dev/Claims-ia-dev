@@ -39,14 +39,15 @@ export function getUserById(req, res) {
 }
 
 export const setUserRoomMVP = (req, res) => {
+  console.log("req.body: " + JSON.stringify(req.body));
   const { userId } = req.params;
-  const { roomName, roomType, checkboxStates } = req.body;
+  const { roomName, roomType,serviceTypeName, serviceTypeId,checkboxStates } = req.body;
 
   const insertRoomSql = `
-    INSERT INTO roommvp (user_id, name, roomtype) VALUES (?, ?, ?);
+    INSERT INTO roommvp (user_id, name, roomtype, serviceTypeName, serviceTypeId) VALUES (?, ?, ?, ?, ?);
   `;
 
-  db.query(insertRoomSql, [userId, roomName, roomType], (err, result) => {
+  db.query(insertRoomSql, [userId, roomName, roomType, serviceTypeName, serviceTypeId ], (err, result) => {
     if (err) {
       console.error("Error al realizar la consulta para crear la habitación:", err);
       res.status(500).json({ error: "Error interno del servidor" });
@@ -77,7 +78,6 @@ export const setUserRoomMVP = (req, res) => {
 };
 
 export const setUserRoomMVPAnswer = (req, res) => {
-  const { userId } = req.params;
   const { roommvp_id } = req.body;
 
   const getQuestionsSql = `SELECT id FROM questions`;
@@ -120,9 +120,10 @@ export const setUserRoomMVPAnswer = (req, res) => {
 
 export function getUserRoomMVP(req, res) {
   const { userId } = req.params;
-
   const sql = `
-    SELECT roommvp.id AS roommvp_id, roommvp.name AS roommvp_name, roommvp.roomtype AS roomType, users.id AS user_id
+    SELECT roommvp.id AS roommvp_id, roommvp.name AS roommvp_name,
+           roommvp.roomtype AS roomType, roommvp.serviceTypeName, roommvp.serviceTypeId,
+           users.id AS user_id
     FROM users
     JOIN roommvp ON users.id = roommvp.user_id
     WHERE users.id = ?;
@@ -212,17 +213,17 @@ export const deleteUserRoomsMVP = (req, res) => {
 
 export const updateUserRoomMVP = (req, res) => {
   const { userId } = req.params;
-  const { roomName, roomType, roomIdSelected, checkboxStates } = req.body;
+  const { roomName, roomType, roomIdSelected, serviceTypeName, serviceTypeId,checkboxStates } = req.body;
 
   const updateRoomSql = `
     UPDATE roommvp
-    SET name = ?, roomtype = ?
+    SET name = ?, roomtype = ?, serviceTypeName = ?, serviceTypeId = ?
     WHERE user_id = ? AND id = ?;
   `;
 
   db.query(
     updateRoomSql,
-    [roomName, roomType, userId, roomIdSelected],
+    [roomName, roomType, serviceTypeName, serviceTypeId,userId, roomIdSelected],
     (err, result) => {
       if (err) {
         console.error("Error al realizar la consulta:", err);
@@ -302,6 +303,8 @@ export function getUserRoomsWithAnswers(req, res) {
       rm.id AS roommvp_id,
       rm.name AS roommvp_name,
       rm.roomtype AS roomType,
+      rm.serviceTypeName AS serviceTypeName,
+      rm.serviceTypeId AS serviceTypeId,
       q.code AS question_code,
       ra.answer
     FROM
@@ -324,7 +327,7 @@ export function getUserRoomsWithAnswers(req, res) {
       console.log("Consulta realizada correctamente");
 
       const roomsWithQuestions = result.reduce((acc, row) => {
-        const { roommvp_id, roommvp_name, roomType, question_code, answer } = row;
+        const { roommvp_id, roommvp_name, roomType, serviceTypeName, serviceTypeId, question_code, answer } = row;
 
         const existingRoom = acc.find((room) => room.roommvp_id === roommvp_id);
 
@@ -337,6 +340,7 @@ export function getUserRoomsWithAnswers(req, res) {
             roommvp_name,
             roomType,
             questions: { [question_code]: booleanAnswer },
+            [serviceTypeId]: serviceTypeName,
           });
         } else {
           existingRoom.questions[question_code] = booleanAnswer;

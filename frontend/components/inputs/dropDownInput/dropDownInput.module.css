@@ -36,7 +36,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    height: 11em;
+    height: 9em;
     overflow-y: auto;
     border: 3px solid #156fff;
     border-top: none;
@@ -46,13 +46,14 @@
     z-index: 1;
     border-radius: 10px;
     padding-top: 0.5em;
+    margin-bottom: 1em;
   }
 
   .dropdownOption {
     padding: 1em;
     cursor: pointer;
     color: #B2B2B2;
-    width: auto2\;
+    width: auto;
   }
 
   .dropdownOption:nth-child(even) {
@@ -88,4 +89,10 @@
     top: 30%;
     margin-right: 1em;
     color: #B2B2B2;
+  }
+
+  @media (max-width: 768px) {
+    .dropdownOptions {
+      height: 11em;
+    }
   }
