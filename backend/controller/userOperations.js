@@ -6,6 +6,8 @@ export function logInUser(req, res) {
   console.log("password: " + password);
 
   const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+
+  console.log("sql: " + sql);
   db.query(sql, [email, password], (err, result) => {
     if (err) {
       console.error("Error al realizar la consulta:", err);
