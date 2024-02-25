@@ -23,9 +23,6 @@ export default function CreateProjectContainer() {
   const [serviceTypeName, setServiceTypeName] = useState(
     selectedRoom?.serviceTypeName
   );
-  const [serviceTypeId, setServiceTypeId] = useState(
-    selectedRoom?.serviceTypeId
-  );
 
   const [isOpenFirst, setIsOpenFirst] = useState(false);
   const [isOpenSecond, setIsOpenSecond] = useState(false);
@@ -179,7 +176,6 @@ export default function CreateProjectContainer() {
             onChange={(e) => setRoomName(e.target.value)}
           />
           <DropdownInput
-            type="first"
             value={roomType}
             placeholder="Select the type of room"
             options={roomTypes}
@@ -188,12 +184,10 @@ export default function CreateProjectContainer() {
             setIsOpen={setIsOpenFirst}
           />
           <DropdownInput
-            type="second"
             value={serviceTypeName}
             placeholder="Select type service"
             options={typeServices}
             handleSelect={(selectedValue) => setServiceTypeName(selectedValue)}
-            handleSelectId={(selectedId) => setServiceTypeId(selectedId)}
             isOpen={isOpenSecond}
             setIsOpen={setIsOpenSecond}
           />

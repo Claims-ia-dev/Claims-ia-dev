@@ -24,14 +24,14 @@ export const logInUser = async ({ email, password }) => {
   }
 };
 
-export const setUserRoomMVP = async (userId, roomName, roomType, serviceTypeName, serviceTypeId, checkboxStates) => {
+export const setUserRoomMVP = async (userId, roomName, roomType, serviceTypeName, checkboxStates) => {
   try {
     const response = await fetch(`https://claims.ai.onlinesolutionsusa.net:4433/api/getUser/${userId}/roomsMVP`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ roomName, roomType, serviceTypeName, serviceTypeId, checkboxStates }),
+      body: JSON.stringify({ roomName, roomType, serviceTypeName, checkboxStates }),
     });
 
     if (response.ok) {
@@ -45,14 +45,14 @@ export const setUserRoomMVP = async (userId, roomName, roomType, serviceTypeName
   }
 };
 
-export const updateUserRoomMVP = async (userId, roomName, roomType, serviceTypeName, serviceTypeId, roomIdSelected, checkboxStates) => {
+export const updateUserRoomMVP = async (userId, roomName, roomType, serviceTypeName, roomIdSelected, checkboxStates) => {
   try {
     const response = await fetch(`https://claims.ai.onlinesolutionsusa.net:4433/api/getUser/${userId}/roomsMVP`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ roomName, roomType,serviceTypeName, serviceTypeId, roomIdSelected, checkboxStates }),
+      body: JSON.stringify({ roomName, roomType,serviceTypeName, roomIdSelected, checkboxStates }),
     });
 
     if (response.ok) {

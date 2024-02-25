@@ -12,7 +12,6 @@ export default function CreateProjectContainer() {
   const [roomName, setRoomName] = useState("");
   const [roomType, setRoomType] = useState("");
   const [serviceTypeName, setServiceTypeName] = useState("");
-  const [serviceTypeId, setServiceTypeId] = useState("");
   const [questionsView, setQuestionsView] = useState(false);
 
   const pageSize = 15;
@@ -49,7 +48,6 @@ export default function CreateProjectContainer() {
     setRoomName("");
     setRoomType("");
     setServiceTypeName("");
-    setServiceTypeId("");
   };
 
   const handleLast = async () => {
@@ -59,7 +57,6 @@ export default function CreateProjectContainer() {
       roomName,
       roomType,
       serviceTypeName,
-      serviceTypeId,
       checkboxStates
     );
     if (!response) {
@@ -73,7 +70,6 @@ export default function CreateProjectContainer() {
     setRoomName("");
     setRoomType("");
     setServiceTypeName("");
-    setServiceTypeId("");
     navigate(`/admin/user/${userData.id}/rooms`);
   };
 
@@ -145,7 +141,6 @@ export default function CreateProjectContainer() {
             onChange={(e) => setRoomName(e.target.value)}
           />
           <DropdownInput
-            type="first"
             value={roomType}
             placeholder="Select the type of room"
             options={roomTypes}
@@ -154,12 +149,10 @@ export default function CreateProjectContainer() {
             setIsOpen={setIsOpenFirst}
           />
           <DropdownInput
-            type="second"
             value={serviceTypeName}
             placeholder="Select type service"
             options={typeServices}
             handleSelect={(selectedValue) => setServiceTypeName(selectedValue)}
-            handleSelectId={(selectedId) => setServiceTypeId(selectedId)}
             isOpen={isOpenSecond}
             setIsOpen={setIsOpenSecond}
           />
