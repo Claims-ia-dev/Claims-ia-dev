@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { dbConnect } from "./database/dbConnection.js";
-import { getUserById, logInUser } from "./controller/userOperations.js";
+import { getUserById, logInUser, predictItem } from "./controller/userOperations.js";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url)
 var https = require('https');
@@ -24,10 +24,10 @@ import {
 } from "./controller/userOperations.js";
 
 
-var httpsOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/fullchain.pem')
-};
+// var httpsOptions = {
+//   key: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/fullchain.pem')
+// };
 
 
 const app = express();
@@ -62,6 +62,7 @@ app.use(function (req, res, next) {
 });
 
 app.post("/api/logInUser", logInUser);
+app.post("/api/preditem", predictItem);
 app.get("/api/getUser/:userId", getUserById);
 
 app.get("/api/getUser/:userId/roomsMVP", getUserRoomMVP);
@@ -81,4 +82,4 @@ app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });
 
-https.createServer(httpsOptions, app).listen(4433);
+// https.createServer(httpsOptions, app).listen(4433);

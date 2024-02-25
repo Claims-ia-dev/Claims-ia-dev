@@ -1,4 +1,8 @@
 import db from "../database/dbConnection.js";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url)
+const fs = require('fs');
+
 
 export function logInUser(req, res) {
   const { email, password } = req.body;
@@ -24,6 +28,16 @@ export function logInUser(req, res) {
       }
     }
   });
+}
+
+export function predictItem(req, res) {
+  // Read the JSON file
+  const data = fs.readFileSync('./dataTest.json');
+  // Parse the JSON data
+  const parsedData = JSON.parse(data);
+  // Do something with the data
+  console.log(parsedData);
+  
 }
 
 export function getUserById(req, res) {

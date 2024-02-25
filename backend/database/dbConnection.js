@@ -5,7 +5,7 @@
   };
 
   const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'claims.ai.onlinesolutionsusa.net',
     user: 'root',
     password: 'ubuntu2023X',
     database: 'userlogin',
