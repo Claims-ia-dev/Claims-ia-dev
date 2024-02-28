@@ -7,11 +7,11 @@ const require = createRequire(import.meta.url)
 var https = require('https');
 var fs =  require('fs');
 
-// import path from 'path';
-// import { fileURLToPath } from 'url';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import {
   getUserRoomMVP,
@@ -24,10 +24,10 @@ import {
 } from "./controller/userOperations.js";
 
 
-// var httpsOptions = {
-//   key: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/privkey.pem'),
-//   cert: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/fullchain.pem')
-// };
+var httpsOptions = {
+  key: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/fullchain.pem')
+};
 
 
 const app = express();
@@ -82,4 +82,4 @@ app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });
 
-// https.createServer(httpsOptions, app).listen(4433);
+https.createServer(httpsOptions, app).listen(4433);

@@ -1,7 +1,15 @@
 import db from "../database/dbConnection.js";
 import { createRequire } from "module";
-const require = createRequire(import.meta.url)
+const require = createRequire(import.meta.url);
 const fs = require('fs');
+
+const querystring = require('querystring');
+var http = require('http');
+var axios = require('axios');
+// import fetch from 'node-fetch';
+
+const needle = require('needle');
+
 
 
 export function logInUser(req, res) {
@@ -30,14 +38,60 @@ export function logInUser(req, res) {
   });
 }
 
-export function predictItem(req, res) {
+export async function predictItem(req, res) {
   // Read the JSON file
-  const data = fs.readFileSync('./dataTest.json');
+  const data1 = fs.readFileSync('./dataTest.json');
   // Parse the JSON data
-  const parsedData = JSON.parse(data);
-  // Do something with the data
-  console.log(parsedData);
-  
+  const parsedData = JSON.parse(data1);
+  // console.log(parsedData);
+  var acum = 0 ;
+  var arrJson = [];
+
+  var rooms = {'code_room_BATHROOM':false, 'code_room_BEDROOM':false, 'code_room_CLOSET':false,'code_room_DINING_ROOM':false, 'code_room_ENTRY':false, 'code_room_FAMILY_ROOM':false,
+    'code_room_FOYER':false, 'code_room_GARAGE':false, 'code_room_GENERAL':false,'code_room_HALLWAY':false, 'code_room_KITCHEN':false, 'code_room_LAUNDRY':false,
+    'code_room_LIVING_ROOM':false, 'code_room_MAIN_LEVEL':false, 'code_room_OFFICE':false,'code_room_PACKOUT':false, 'code_room_STAIRS':false, 'code_room_STORAGE_AREA':false,
+    'code_room_TOILET_ROOM':false, 'code_room_VANITY_AREA':false, 'type_service_fire':false, 'type_service_other':false,
+    'type_service_packouts_packbacks_storage_contents_cleaning':false,'type_service_repairs_rebuild_construction':false,'type_service_water_mitigation_mold_remediation_ems':false}
+
+  parsedData.forEach(async element => {
+    var obj = new Object();
+
+    Object.keys(rooms)
+      .forEach(key => obj[key] = rooms[key]);
+
+    Object.keys(element.questions)
+      .forEach(key => obj[key] = element.questions[key]);
+
+    // obj = rooms; 
+    obj[element.type_service] = true; 
+    obj["code_room_"+element.roomType] = true; 
+
+    arrJson.push(obj);  
+  });
+
+  // console.log("arrJsonarrJson", arrJson)
+
+  // const dataPost = querystring.stringify(arrJson);
+  // console.log(dataPost)
+  let xc = JSON.parse(JSON.stringify(arrJson));
+  const headers = {
+    "Content-Type": "application/json",
+    // "Content-Type": "multipart/form-data",
+    // 'Content-Length': Buffer.byteLength(xc)
+  }
+
+  await axios.post('http://localhost:8080/preditem',arrJson, {headers})
+   .then(async (res) => {
+       console.log(`Status: ${res.status}`);
+       console.log('Body: ', res.data);
+       acum += await parseInt(res.data);
+       console.log("first",acum)
+       // return acum;
+   }).catch((err) => { console.error(err.response); });
+  console.log(" acumResponsev, result1",acum)
+  res.send({acum});
+  // res.write(JSON.stringify({acum}))
+  // res.end();
 }
 
 export function getUserById(req, res) {
