@@ -37,10 +37,9 @@ export function logInUser(req, res) {
 
 export async function predictItem(req, res) {
   // Read the JSON file
-  req.data
   // const data1 = fs.readFileSync('./dataTest.json');
   const data1 = JSON.stringify(req.body)
-  console.log("first", data1);
+  // console.log("first", data1);/
   // Parse the JSON data
   const parsedData = JSON.parse(data1);
   // console.log(parsedData);
@@ -63,13 +62,17 @@ export async function predictItem(req, res) {
       .forEach(key => obj[key] = element.questions[key]);
 
     // obj = rooms; 
-    obj[element.type_service] = true; 
+    let newString = element.type_service.replace(/\s/g, "_");
+    newString = newString.replace(/,/g, "");
+    newString = newString.replace(',','');
+    obj["type_service_"+newString.toLowerCase()] = true; 
+    // obj["type_service_"+element.type_service] = true; 
     obj["code_room_"+element.roomType] = true; 
 
     arrJson.push(obj);  
   });
 
-  // console.log("arrJsonarrJson", arrJson)
+  console.log("arrJsonarrJson", arrJson)
 
   // const dataPost = querystring.stringify(arrJson);
   // console.log(dataPost)
@@ -117,19 +120,19 @@ export const setUserRoomMVP = async (req, res) => {
     INSERT INTO roommvp (user_id, name, roomtype, serviceTypeName) VALUES (?, ?, ?, ?);
   `;
 
-  db.query(insertRoomSql, [userId, roomName, roomType, serviceTypeName ],async (err, result) => {
+  db.query(insertRoomSql, [userId, roomName, roomType, serviceTypeName ], (err, result) => {
     if (err) {
       console.error("Error al realizar la consulta para crear la habitación:", err);
       res.status(500).json({ error: "Error interno del servidor" });
     } else {
 
       // await new Promise(r => setTimeout(r, 3000));
-      setTimeout(() => {
-        console.log("Delayed for 3 second.");
-      }, "3000");
+      // setTimeout(() => {
+      //   console.log("Delayed for 3 second.");
+      // }, "3000");
 
 
-      const roomMvpId = await result.insertId;
+      const roomMvpId = result.insertId;
       console.log("first roomMvpId",roomMvpId)
 
       const insertAnswerSql = `
@@ -396,7 +399,7 @@ export function getUserRoomsWithAnswers(req, res) {
       u.id = ?;
   `;
 
-  db.query(sql, [userId], (err, result) => {
+  db.query(sql, [userId], async (err, result) => {
     if (err) {
       console.error("Error al realizar la consulta:", err);
       res.status(500).json({ error: "Error interno del servidor" });
@@ -426,7 +429,59 @@ export function getUserRoomsWithAnswers(req, res) {
         return acc;
       }, []);
 
-      res.status(200).json(roomsWithQuestions);
+      const data1 = JSON.stringify(roomsWithQuestions)
+      const parsedData = JSON.parse(data1);
+      var acum = 0 ;
+      var arrJson = [];
+
+      var rooms = {'code_room_BATHROOM':false, 'code_room_BEDROOM':false, 'code_room_CLOSET':false,'code_room_DINING_ROOM':false, 'code_room_ENTRY':false, 'code_room_FAMILY_ROOM':false,
+      'code_room_FOYER':false, 'code_room_GARAGE':false, 'code_room_GENERAL':false,'code_room_HALLWAY':false, 'code_room_KITCHEN':false, 'code_room_LAUNDRY':false,
+      'code_room_LIVING_ROOM':false, 'code_room_MAIN_LEVEL':false, 'code_room_OFFICE':false,'code_room_PACKOUT':false, 'code_room_STAIRS':false, 'code_room_STORAGE_AREA':false,
+      'code_room_TOILET_ROOM':false, 'code_room_VANITY_AREA':false, 'type_service_fire':false, 'type_service_other':false,
+      'type_service_packouts_packbacks_storage_contents_cleaning':false,'type_service_repairs_rebuild_construction':false,'type_service_water_mitigation_mold_remediation_ems':false}
+
+    parsedData.forEach(async element => {
+      var obj = new Object();
+
+      Object.keys(rooms)
+        .forEach(key => obj[key] = rooms[key]);
+
+      Object.keys(element.questions)
+        .forEach(key => obj[key] = element.questions[key]);
+
+      // obj = rooms; 
+      let newString = element.type_service.replace(/\s/g, "_");
+      newString = newString.replace(/,/g, "");
+      newString = newString.replace(',','');
+      obj["type_service_"+newString.toLowerCase()] = true; 
+      // obj["type_service_"+element.type_service] = true; 
+      obj["code_room_"+element.roomType] = true; 
+
+      arrJson.push(obj);  
+    });
+
+    console.log("arrJsonarrJson", arrJson)
+
+    // const dataPost = querystring.stringify(arrJson);
+    // console.log(dataPost)
+    let xc = JSON.parse(JSON.stringify(arrJson));
+    const headers = {
+      "Content-Type": "application/json",
+      // "Content-Type": "multipart/form-data",
+      // 'Content-Length': Buffer.byteLength(xc)
+    }
+
+    await axios.post('http://localhost:8080/preditem',arrJson, {headers})
+    .then(async (res) => {
+        console.log(`Status: ${res.status}`);
+        console.log('Body: ', res.data);
+        acum += await parseInt(res.data);
+        console.log("first",acum)
+        // return acum;
+    }).catch((err) => { console.error(err.response); });
+    console.log(" acumResponsev, result1",acum)
+    // res.send({acum});
+    res.status(200).json({acum});
     }
   });
 }
