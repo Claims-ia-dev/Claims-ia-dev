@@ -8,9 +8,6 @@ var http = require('http');
 var axios = require('axios');
 // import fetch from 'node-fetch';
 
-const needle = require('needle');
-
-
 
 export function logInUser(req, res) {
   const { email, password } = req.body;
@@ -40,7 +37,10 @@ export function logInUser(req, res) {
 
 export async function predictItem(req, res) {
   // Read the JSON file
-  const data1 = fs.readFileSync('./dataTest.json');
+  req.data
+  // const data1 = fs.readFileSync('./dataTest.json');
+  const data1 = JSON.stringify(req.body)
+  console.log("first", data1);
   // Parse the JSON data
   const parsedData = JSON.parse(data1);
   // console.log(parsedData);
@@ -108,21 +108,29 @@ export function getUserById(req, res) {
   });
 }
 
-export const setUserRoomMVP = (req, res) => {
+export const setUserRoomMVP = async (req, res) => {
   console.log("req.body: " + JSON.stringify(req.body));
   const { userId } = req.params;
   const { roomName, roomType, serviceTypeName, checkboxStates } = req.body;
 
-  const insertRoomSql = `
+  const insertRoomSql  = await `
     INSERT INTO roommvp (user_id, name, roomtype, serviceTypeName) VALUES (?, ?, ?, ?);
   `;
 
-  db.query(insertRoomSql, [userId, roomName, roomType, serviceTypeName ], (err, result) => {
+  db.query(insertRoomSql, [userId, roomName, roomType, serviceTypeName ],async (err, result) => {
     if (err) {
       console.error("Error al realizar la consulta para crear la habitación:", err);
       res.status(500).json({ error: "Error interno del servidor" });
     } else {
-      const roomMvpId = result.insertId;
+
+      // await new Promise(r => setTimeout(r, 3000));
+      setTimeout(() => {
+        console.log("Delayed for 3 second.");
+      }, "3000");
+
+
+      const roomMvpId = await result.insertId;
+      console.log("first roomMvpId",roomMvpId)
 
       const insertAnswerSql = `
         INSERT INTO room_answers (question_id, answer, roommvp_id)

@@ -24,10 +24,10 @@ import {
 } from "./controller/userOperations.js";
 
 
-var httpsOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/fullchain.pem')
-};
+// var httpsOptions = {
+//   key: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/fullchain.pem')
+// };
 
 
 const app = express();
@@ -82,4 +82,4 @@ app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });
 
-https.createServer(httpsOptions, app).listen(4433);
+// https.createServer(httpsOptions, app).listen(4433);
