@@ -47,7 +47,7 @@
 
   .projectsContainer .btnProject{
     width: min(25rem, 95%);
-    height: 3em;
+    height: 4em;
     background-color: #156fff;
     display: flex;
     justify-content: center;

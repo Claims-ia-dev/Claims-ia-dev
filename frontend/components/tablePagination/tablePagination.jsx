@@ -15,8 +15,8 @@ export default function TablePagination({
   paginatedData,
 }) {
   return (
-    <>
-      <section className={styles.questionsContainer}>
+    <section className={styles.container}>
+      <article className={styles.questionsContainer}>
         <table>
           <thead>
             <tr>
@@ -42,7 +42,7 @@ export default function TablePagination({
             ))}
           </tbody>
         </table>
-      </section>
+      </article>
       <div className={styles.buttonsContainer}>
         <button onClick={currentPage === 0 ? handleFirst : handlePrevious}>
           {currentPage === 0 ? "Cancel" : "Back"}
@@ -53,6 +53,6 @@ export default function TablePagination({
           {currentPage === totalPages - 1 ? "Finish this room" : "Next"}
         </button>
       </div>
-    </>
+    </section>
   );
 }

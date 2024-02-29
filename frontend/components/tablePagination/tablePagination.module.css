@@ -1,8 +1,18 @@
+.container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 4em;
+}
+
 .questionsContainer {
   width: min(50em, 95%);
-  /* height: 82%; */
   height: auto;
-  margin-top: 1em;
+  margin-top: 1.5rem;
+  margin-bottom: min(10rem, 0.1rem);
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -26,7 +36,7 @@
 .questionsContainer table th {
   background-color: #156fff;
   color: #ffffff;
-  padding: 0.5em;
+  padding: 0.4em;
 }
 
 .questionsContainer table th:nth-child(1) {
@@ -74,8 +84,6 @@
   justify-content: flex-end;
   align-items: center;
   gap: 2em;
-  position: absolute;
-  bottom: -5px;
 }
 
 .buttonsContainer button {
@@ -111,7 +119,14 @@
   background-color: #156fffd2;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 1500px) {
+  .buttonsContainer{
+    margin-bottom: 1em;
+  }
+}
+
+
+@media (max-width: 500px) {
   .buttonsContainer {
     margin-top: 0.3em;
     height: auto;
@@ -125,12 +140,26 @@
     width: 100%;
     height: 2.7em;
   }
-}
-
-
-@media (max-width: 500px) {
   .questionsContainer table tbody td {
     padding: 0.6rem;
+  }
+  .questionsContainer{
+    top: 6%;
+  }
+}
+
+@media (max-width: 390px) {
+  .questionsContainer table tbody td {
+    padding: 0.4rem;
+  }
+  .questionsContainer{
+    top: 8%;
+  }
+}
+
+@media (max-width: 375px) {
+  .questionsContainer table tbody td {
+    padding: 0.1rem;
   }
   .questionsContainer{
     top: 8%;

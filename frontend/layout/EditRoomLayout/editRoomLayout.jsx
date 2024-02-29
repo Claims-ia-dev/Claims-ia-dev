@@ -85,7 +85,6 @@ export default function CreateProjectContainer() {
       roomName,
       roomType,
       serviceTypeName,
-      serviceTypeId,
       userData.roomIdSelected,
       checkboxStates
     );
@@ -101,7 +100,6 @@ export default function CreateProjectContainer() {
     setRoomName("");
     setRoomType("");
     setServiceTypeName("");
-    setServiceTypeId("");
     navigate(`/admin/user/${userData.id}/rooms`);
   };
 

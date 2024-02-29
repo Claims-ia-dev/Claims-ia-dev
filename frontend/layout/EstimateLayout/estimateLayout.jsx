@@ -65,12 +65,12 @@ export default function EstimateLayout() {
           >
             New project
           </button>
-          <button onClick={async () => { await generateInfo(); }} className={styles.btnProject}
+          {/* <button onClick={async () => { await generateInfo(); }} className={styles.btnProject}
           >
             Calculate estimate
-          </button>
+          </button> */}
           {/* <button onClick={async ()=>{ await getEstimate()}} className={styles.btnProject}>Calculate estimate</button> */}
-          {/* <button onClick={() => {handleLogout();}} className={styles.btnProject}>Log out</button> */}
+          <button onClick={() => {handleLogout();}} className={styles.btnProject}>Log out</button>
         </article>
       </section>
     </>

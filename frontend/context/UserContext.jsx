@@ -16,6 +16,9 @@ export const UserProvider = ({ children }) => {
     refetch: false,
   });
 
+
+
+
   useEffect(() => {
     if (userData.loginState) {
       getUserRoomMVP(userData.id).then((res) => {

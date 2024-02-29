@@ -52,7 +52,7 @@
 
   .projectsContainer .btnProject{
     width: min(25rem, 95%);
-    height: 3em;
+    height: 4em;
     background-color: #156fff;
     display: flex;
     justify-content: center;
@@ -67,7 +67,7 @@
 
   .btnProjectDeny{
     width: min(25rem, 95%);
-    height: 3em;
+    height: 4em;
     background-color: #156fff7e;
     display: flex;
     justify-content: center;
@@ -104,5 +104,11 @@
   @media (max-width: 500px) {
     .projectsContainer p {
       width: min(31rem, 90%);
+    }
+  }
+
+  @media (min-height: 1020px) {
+    .buttonsContainer{
+      margin-bottom: 20em;
     }
   }

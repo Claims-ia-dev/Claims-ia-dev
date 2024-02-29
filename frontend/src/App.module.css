@@ -70,7 +70,7 @@ main {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background: url("../public/logo.svg");
+  background: url("../public/logo.webp");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 80%;

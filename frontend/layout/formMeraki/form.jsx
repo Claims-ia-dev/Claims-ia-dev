@@ -75,7 +75,7 @@ export default function Home() {
                 />
                 <div className={`${styles.formGroup} ${styles.displayFlex}`}>
                   <div className={styles.textContainer}>
-                    <a href="/">
+                    <a href="https://www.xclaims.ai/">
                       No account? <u>No problem</u>
                     </a>
                   </div>
