@@ -119,12 +119,11 @@
   background-color: #156fffd2;
 }
 
-@media (min-width: 1500px) {
-  .buttonsContainer{
-    margin-bottom: 1em;
+@media (min-height: 900px) {
+  .container{
+    margin-bottom: 14rem;
   }
 }
-
 
 @media (max-width: 500px) {
   .buttonsContainer {

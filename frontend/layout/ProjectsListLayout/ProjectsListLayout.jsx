@@ -10,7 +10,7 @@ import { useEffect, useState} from "react";
 
 
 export default function ProjectsContainer () {
-    const { userData, setUserData } = useUserData();
+    const { userData, setUserData, estimateBill, setEstimateBill} = useUserData();
     const { setNotification, notification } = useNotificationContext();
     const navigate = useNavigate();
     const [routeActive, setRouteActive] = useState(null);
@@ -83,7 +83,7 @@ export default function ProjectsContainer () {
             </AnimatePresence>
             <article className={styles.projectsBtnContainer}>
               <button onClick={()=>{navigate(`/admin/user/${userData.id}/room`)}} className={styles.btnProject}>Add new room</button>
-              <button onClick={()=>{!routeActive && navigate(`/admin/user/${userData.id}/estimate`)}} className={activateStyle}>Calculate estimate</button>
+              <button onClick={()=>{!routeActive && navigate(`/admin/user/${userData.id}/estimate`); setEstimateBill(true)}} className={activateStyle}>Calculate estimate</button>
             </article>
           </section>
       </AdminLayout>

@@ -1,7 +1,7 @@
 import styles from "./EstimateLayout.module.css";
 import { useUserData } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   getUserRoomsWithAnswers,
   getEstimateProject,
@@ -10,9 +10,16 @@ import { deleteUserRoomsMVP } from "../../controller/userOperation";
 
 export default function EstimateLayout() {
   const [userFinalData, setUserFinalData] = useState([]);
+  const [estimate, setEstimate] = useState("false");
+
+  function formatearNumero(numero) {
+    // Utiliza toLocaleString para formatear el número con separadores de miles y decimales
+    return parseFloat(numero).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
 
   const navigate = useNavigate();
-  const { userData, setUserData } = useUserData();
+  const { userData, setUserData, estimateBill, setEstimateBill } =
+    useUserData();
 
   const handleLogout = async () => {
     await deleteUserRoomsMVP(userData.id);
@@ -21,30 +28,29 @@ export default function EstimateLayout() {
     navigate("/");
   };
 
-  const generateInfo = async () => {
-    try {
-      const userFinalData = await getUserRoomsWithAnswers(userData.id);
-      setUserFinalData(userFinalData);
-    } catch (error) {
-      console.error("Error al obtener respuestas:", error);
+  useEffect(() => {
+    if (estimateBill === true) {
+      const fetchData = async () => {
+        try {
+          const userFinalData = await getUserRoomsWithAnswers(userData.id);
+          setUserFinalData(userFinalData);
+          const requestData = userFinalData; // Assuming this is the correct data
+          const estimated = await getEstimateProject(requestData);
+          setEstimate(estimated);
+          setEstimateBill(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
     }
-  };
-
-  const getEstimate = async (requestData) => {
-    try {
-      const response = await getEstimateProject(requestData);
-      console.log("response", response);
-    } catch (error) {
-      console.error("Error al obtener estimado:", error);
-    }
-  };
+  }, [estimateBill, setEstimateBill, userData.id]);
 
   const handleRedirection = async () => {
     await deleteUserRoomsMVP(userData.id);
     navigate(`/admin/user/${userData.id}/room`);
   };
 
-  console.log("userFinalData", userFinalData);
 
   return (
     <>
@@ -58,19 +64,25 @@ export default function EstimateLayout() {
       <section className={styles.estimateContainer}>
         <article className={styles.infoContainer}>
           <p>The estimated amount for this project is:</p>
-          <h1 className={styles.title}>$5,000.00</h1>
+          <h1 className={styles.title}>${formatearNumero(userFinalData.acum)}</h1>
         </article>
         <article className={styles.projectsBtnContainer}>
-          <button onClick={() => { handleRedirection(); }} className={styles.btnProject}
+          <button
+            onClick={() => {
+              handleRedirection();
+            }}
+            className={styles.btnProject}
           >
             New project
           </button>
-          {/* <button onClick={async () => { await generateInfo(); }} className={styles.btnProject}
+          <button
+            onClick={() => {
+              handleLogout();
+            }}
+            className={styles.btnProject}
           >
-            Calculate estimate
-          </button> */}
-          {/* <button onClick={async ()=>{ await getEstimate()}} className={styles.btnProject}>Calculate estimate</button> */}
-          <button onClick={() => {handleLogout();}} className={styles.btnProject}>Log out</button>
+            Log out
+          </button>
         </article>
       </section>
     </>

@@ -6,7 +6,6 @@
     height: 4em;
     display: flex;
     background-color: #FFFFFF;
-    /* border: 4px solid black; */
   }
 
   .navbarContainer .logOutBtn{
@@ -33,6 +32,6 @@
   }
 
   .navbarContainer img{
-    width: min(13em, 65%);
+    width: min(9em, 60%);
     object-fit: cover;
   }

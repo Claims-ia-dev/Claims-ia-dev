@@ -16,6 +16,8 @@ export const UserProvider = ({ children }) => {
     refetch: false,
   });
 
+  const [estimateBill, setEstimateBill] = useState(false);
+
 
 
 
@@ -29,7 +31,7 @@ export const UserProvider = ({ children }) => {
 
   console.log("userData", userData);
   return (
-    <UserDataContext.Provider value={{ userData, setUserData }}>
+    <UserDataContext.Provider value={{ userData, setUserData, estimateBill, setEstimateBill }}>
       {children}
     </UserDataContext.Provider>
   );
