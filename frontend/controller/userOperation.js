@@ -3,6 +3,7 @@
 export const logInUser = async ({ email, password }) => {
   try {
     const response = await fetch("https://claims.ai.onlinesolutionsusa.net:4433/api/logInUser", {
+      // const response = await fetch("http://localhost:3000/api/logInUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,6 +28,7 @@ export const logInUser = async ({ email, password }) => {
 export const setUserRoomMVP = async (userId, roomName, roomType, serviceTypeName, checkboxStates) => {
   try {
     const response = await fetch(`https://claims.ai.onlinesolutionsusa.net:4433/api/getUser/${userId}/roomsMVP`, {
+      // const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,6 +50,7 @@ export const setUserRoomMVP = async (userId, roomName, roomType, serviceTypeName
 export const updateUserRoomMVP = async (userId, roomName, roomType, serviceTypeName, roomIdSelected, checkboxStates) => {
   try {
     const response = await fetch(`https://claims.ai.onlinesolutionsusa.net:4433/api/getUser/${userId}/roomsMVP`, {
+      // const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -70,6 +73,7 @@ export const getUserRoomMVP = async (userId) => {
   console.log("userId:", userId);
   try {
     const response = await fetch(`https://claims.ai.onlinesolutionsusa.net:4433/api/getUser/${userId}/roomsMVP`);
+    // const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP`);
     if (response.ok) {
       const data = await response.json();
       return data;
@@ -106,6 +110,7 @@ export const deleteUserRoomMVP = async (userId, roomId) => {
 export const deleteUserRoomsMVP = async (userId) => {
   try {
     const response = await fetch(`https://claims.ai.onlinesolutionsusa.net:4433/api/getUser/${userId}/roomsMVP`, {
+      // const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -128,6 +133,7 @@ export const getRoomAnswers = async (userId, roomId) => {
   console.log("roomId:", roomId);
   try {
     const response = await fetch(`https://claims.ai.onlinesolutionsusa.net:4433/api/getUser/${userId}/roomsMVP/${roomId}/questions`);
+    // const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVP/${roomId}/questions`);
     const data = await response.json();
 
     if (response.ok) {
@@ -144,6 +150,7 @@ export const getRoomAnswers = async (userId, roomId) => {
 export const getUserRoomsWithAnswers = async (userId) => {
   try {
     const response = await fetch(`https://claims.ai.onlinesolutionsusa.net:4433/api/getUser/${userId}/roomsMVPAll/`);
+    // const response = await fetch(`http://localhost:3000/api/getUser/${userId}/roomsMVPAll/`);
     const data = await response.json();
 
     if (response.ok) {

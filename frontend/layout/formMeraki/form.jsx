@@ -44,6 +44,7 @@ export default function Home() {
     if (errorLogin) {
       setTimeout(() => {
         setErrorLogin(false);
+        setPassword("");
       }, 3000);
     }
   }, [errorLogin]);
