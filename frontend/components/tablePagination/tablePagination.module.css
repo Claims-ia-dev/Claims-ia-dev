@@ -228,7 +228,7 @@
 @media (min-width: 1000px) and (min-height: 900px){
   .wrapper{
     height: 100%;
-    background-color: red;
+    /* background-color: red; */
     display: flex;
     align-items: center;
     justify-content: center;
