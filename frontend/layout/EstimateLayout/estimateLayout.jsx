@@ -17,6 +17,7 @@ export default function EstimateLayout() {
   const { userData, setUserData, estimateBill, setEstimateBill } = useUserData();
 
 
+  
   function parseNumber(numero) {
     // Utiliza toLocaleString para formatear el número con separadores de miles y decimales
     return parseFloat(numero).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
