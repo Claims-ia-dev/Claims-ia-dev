@@ -25,8 +25,8 @@ import {
 
 
 // var httpsOptions = {
-//   key: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/privkey.pem'),
-//   cert: fs.readFileSync('/etc/letsencrypt/live/claims.ai.onlinesolutionsusa.net/fullchain.pem')
+//   key: fs.readFileSync('/etc/letsencrypt/live/dashboard.xclaims.ai/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/dashboard.xclaims.ai/fullchain.pem')
 // };
 
 

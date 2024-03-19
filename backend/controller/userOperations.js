@@ -26,13 +26,11 @@ export function logInUser(req, res) {
       if (result.length > 0) {
         console.log("Inicio de sesión exitoso");
         res.status(200).json({ success: true, data: result });
-        db.destroy();
       } else {
         console.log("Inicio de sesión fallido");
         res
           .status(401)
           .json({ success: false, error: "Credenciales inválidas" });
-          db.destroy();
       }
     }
   });
@@ -111,7 +109,6 @@ export function getUserById(req, res) {
     } else {
       console.log("Consulta realizada correctamente");
       res.status(200).json(result);
-      db.destroy();
     }
   });
 }
@@ -228,7 +225,6 @@ export function getUserRoomMVP(req, res) {
     } else {
       console.log("Consulta realizada correctamente");
       res.status(200).json(result);
-      db.destroy();
     }
   });
 }
@@ -259,11 +255,9 @@ export const deleteUserRoomMVP = (req, res) => {
           if (result.affectedRows > 0) {
             console.log("Habitación y respuestas eliminadas correctamente");
             res.status(200).json({ success: true });
-            db.destroy();
           } else {
             console.log("No se encontró la habitación con el ID proporcionado");
             res.status(404).json({ error: "No se encontró la habitación con el ID proporcionado" });
-            db.destroy();
           }
         }
       });
@@ -300,11 +294,9 @@ export const deleteUserRoomsMVP = (req, res) => {
           if (result.affectedRows > 0) {
             console.log("Habitaciones y respuestas eliminadas correctamente");
             res.status(200).json({ success: true });
-            db.destroy();
           } else {
             console.log("No se encontraron habitaciones para el usuario proporcionado");
             res.status(404).json({ error: "No se encontraron habitaciones para el usuario proporcionado" });
-            db.destroy();
           }
         }
       });
@@ -360,7 +352,6 @@ export const updateUserRoomMVP = (req, res) => {
           });
 
           res.status(200).json({ success: true });
-          db.destroy();
         } else {
           console.log("Usuario no encontrado o ningún cambio realizado");
           res
@@ -368,7 +359,6 @@ export const updateUserRoomMVP = (req, res) => {
             .json({
               error: "Usuario no encontrado o ningún cambio realizado",
             });
-            db.destroy();
         }
       }
     }
@@ -397,7 +387,6 @@ export const getRoomAnswers = (req, res) => {
       db.destroy();
     } else {
       res.status(200).json({ data: result });
-      db.destroy();
     }
   });
 };
