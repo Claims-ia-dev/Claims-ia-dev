@@ -21,15 +21,18 @@ export function logInUser(req, res) {
     if (err) {
       console.error("Error al realizar la consulta:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
     } else {
       if (result.length > 0) {
         console.log("Inicio de sesión exitoso");
         res.status(200).json({ success: true, data: result });
+        db.destroy();
       } else {
         console.log("Inicio de sesión fallido");
         res
           .status(401)
           .json({ success: false, error: "Credenciales inválidas" });
+          db.destroy();
       }
     }
   });
@@ -104,9 +107,11 @@ export function getUserById(req, res) {
     if (err) {
       console.error("Error al realizar la consulta:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
     } else {
       console.log("Consulta realizada correctamente");
       res.status(200).json(result);
+      db.destroy();
     }
   });
 }
@@ -124,6 +129,7 @@ export const setUserRoomMVP = async (req, res) => {
     if (err) {
       console.error("Error al realizar la consulta para crear la habitación:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
     } else {
 
       // await new Promise(r => setTimeout(r, 3000));
@@ -147,6 +153,7 @@ export const setUserRoomMVP = async (req, res) => {
           if (err) {
             console.error('Error al insertar respuesta:', err);
             res.status(500).json({ error: 'Error interno del servidor' });
+            db.destroy();
             return;
           }
         });
@@ -166,6 +173,7 @@ export const setUserRoomMVPAnswer = (req, res) => {
     if (err) {
       console.error("Error al obtener preguntas:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
       return;
     }
 
@@ -174,6 +182,7 @@ export const setUserRoomMVPAnswer = (req, res) => {
       if (err) {
         console.error("Error al obtener el ID de la habitación:", err);
         res.status(500).json({ error: "Error interno del servidor" });
+        db.destroy();
         return;
       }
 
@@ -189,6 +198,7 @@ export const setUserRoomMVPAnswer = (req, res) => {
           if (err) {
             console.error("Error al insertar respuestas:", err);
             res.status(500).json({ error: "Error interno del servidor" });
+            db.destroy();
             return;
           }
         });
@@ -214,9 +224,11 @@ export function getUserRoomMVP(req, res) {
     if (err) {
       console.error("Error al realizar la consulta:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
     } else {
       console.log("Consulta realizada correctamente");
       res.status(200).json(result);
+      db.destroy();
     }
   });
 }
@@ -232,6 +244,7 @@ export const deleteUserRoomMVP = (req, res) => {
     if (err) {
       console.error("Error al eliminar respuestas:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
     } else {
       const deleteRoomSql = `
         DELETE FROM roommvp WHERE id = ?;
@@ -241,13 +254,16 @@ export const deleteUserRoomMVP = (req, res) => {
         if (err) {
           console.error("Error al eliminar la habitación:", err);
           res.status(500).json({ error: "Error interno del servidor" });
+          db.destroy();
         } else {
           if (result.affectedRows > 0) {
             console.log("Habitación y respuestas eliminadas correctamente");
             res.status(200).json({ success: true });
+            db.destroy();
           } else {
             console.log("No se encontró la habitación con el ID proporcionado");
             res.status(404).json({ error: "No se encontró la habitación con el ID proporcionado" });
+            db.destroy();
           }
         }
       });
@@ -269,6 +285,7 @@ export const deleteUserRoomsMVP = (req, res) => {
     if (err) {
       console.error("Error al eliminar respuestas:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
     } else {
       const deleteRoomSql = `
         DELETE FROM roommvp WHERE user_id = ?;
@@ -278,13 +295,16 @@ export const deleteUserRoomsMVP = (req, res) => {
         if (err) {
           console.error("Error al eliminar la habitación:", err);
           res.status(500).json({ error: "Error interno del servidor" });
+          db.destroy();
         } else {
           if (result.affectedRows > 0) {
             console.log("Habitaciones y respuestas eliminadas correctamente");
             res.status(200).json({ success: true });
+            db.destroy();
           } else {
             console.log("No se encontraron habitaciones para el usuario proporcionado");
             res.status(404).json({ error: "No se encontraron habitaciones para el usuario proporcionado" });
+            db.destroy();
           }
         }
       });
@@ -309,6 +329,7 @@ export const updateUserRoomMVP = (req, res) => {
       if (err) {
         console.error("Error al realizar la consulta:", err);
         res.status(500).json({ error: "Error interno del servidor" });
+        db.destroy();
       } else {
         if (result.affectedRows > 0) {
           console.log("Habitación actualizada correctamente");
@@ -331,6 +352,7 @@ export const updateUserRoomMVP = (req, res) => {
                   res
                     .status(500)
                     .json({ error: "Error interno del servidor" });
+                    db.destroy();
                   return;
                 }
               }
@@ -338,6 +360,7 @@ export const updateUserRoomMVP = (req, res) => {
           });
 
           res.status(200).json({ success: true });
+          db.destroy();
         } else {
           console.log("Usuario no encontrado o ningún cambio realizado");
           res
@@ -345,6 +368,7 @@ export const updateUserRoomMVP = (req, res) => {
             .json({
               error: "Usuario no encontrado o ningún cambio realizado",
             });
+            db.destroy();
         }
       }
     }
@@ -370,8 +394,10 @@ export const getRoomAnswers = (req, res) => {
     if (err) {
       console.error("Error al realizar la consulta para obtener datos del cuarto:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
     } else {
       res.status(200).json({ data: result });
+      db.destroy();
     }
   });
 };
@@ -403,6 +429,7 @@ export function getUserRoomsWithAnswers(req, res) {
     if (err) {
       console.error("Error al realizar la consulta:", err);
       res.status(500).json({ error: "Error interno del servidor" });
+      db.destroy();
     } else {
       console.log("Consulta realizada correctamente");
 
